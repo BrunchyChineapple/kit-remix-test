@@ -35,7 +35,10 @@ icon = ""
 # Active camera + viewport scene-query path used by the Raycast_Service.
 "omni.kit.viewport.utility" = {}
 # Undo/redo grouping so a stroke is a single undoable operation.
-"omni.kit.undo" = {}
+# `omni.kit.undo` is NOT a separately-registered extension in the toolkit
+# registries; it is provided by `omni.kit.commands` (matches the convention used
+# across the toolkit's own extensions, e.g. lightspeed.trex.packaging.core).
+"omni.kit.commands" = {}
 # Provides the `pxr` USD Python libraries (Usd, UsdGeom, Sdf, Gf).
 # `pxr` itself is not a Kit extension; it is delivered by `omni.usd.libs`,
 # which is the host-available carrier for the USD libraries (Requirement 1.5).
