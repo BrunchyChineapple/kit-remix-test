@@ -1,0 +1,37 @@
+name: Build Toolkit (experimental)
+
+# Builds the RTX Remix Toolkit from source on a clean Windows runner so the
+# experimental scatter-brush extension is compiled and its app dependencies are
+# resolved against NVIDIA's public extension registry. This is the from-source
+# build that the upstream GitHub workflows do not perform (they only download a
+# pre-built package or run lint/format checks).
+
+on:
+  workflow_dispatch: {}
+  push:
+    branches:
+      - "experimental/**"
+
+jobs:
+  build-windows:
+    runs-on: windows-latest
+    timeout-minutes: 150
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v6
+        with:
+          lfs: false
+          fetch-depth: 1
+
+      - name: Build (release)
+        shell: cmd
+        run: build.bat
+
+      - name: Upload build log on failure
+        if: failure()
+        uses: actions/upload-artifact@v7
+        with:
+          name: repo-log
+          path: _repo/repo.log
+          if-no-files-found: ignore

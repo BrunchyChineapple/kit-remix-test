@@ -1,0 +1,58 @@
+# Manifest for the native RTX Remix Toolkit scatter brush extension.
+#
+# This extension reimplements E-Man's "Scatter Brush" natively on top of the
+# RTX Remix Toolkit (Lightspeed Trex) Kit runtime. It declares ONLY dependencies
+# that are available in the toolkit host (Requirement 1.5) and never depends on
+# any closed-source `omni.paint.*` module (Requirement 1.2).
+
+[package]
+# Semantic version of the extension package.
+version = "0.1.0"
+# Unique, stable extension identifier required by Requirement 1.1.
+# The folder name (lightspeed.trex.scatter) and this manifest together establish
+# the id `lightspeed.trex.scatter`.
+title = "RTX Remix Scatter Brush"
+description = "Paint grass, rocks, and vegetation onto captured meshes as USD point instancers, directly inside the RTX Remix Toolkit viewport."
+authors = ["RTX Remix Modding"]
+category = "Lightspeed"
+keywords = ["lightspeed", "trex", "remix", "scatter", "brush", "paint", "vegetation", "pointinstancer"]
+readme = "docs/README.md"
+changelog = "docs/CHANGELOG.md"
+repository = ""
+# Experimental work lives on a dedicated experimental toolkit branch
+# (Requirement 15.1) and is not yet promoted to the stable feature set.
+preview_image = ""
+icon = ""
+
+# Host-available dependencies only (Requirement 1.5).
+# Each entry below resolves inside the RTX Remix Toolkit runtime so the
+# extension loads without an unresolved-dependency error (Requirement 1.3 / 1.4).
+[dependencies]
+# UI toolkit for the Brush_UI panel.
+"omni.ui" = {}
+# USD stage/context access and edit-target management.
+"omni.usd" = {}
+# Active camera + viewport scene-query path used by the Raycast_Service.
+"omni.kit.viewport.utility" = {}
+# Undo/redo grouping so a stroke is a single undoable operation.
+"omni.kit.undo" = {}
+# Provides the `pxr` USD Python libraries (Usd, UsdGeom, Sdf, Gf).
+# `pxr` itself is not a Kit extension; it is delivered by `omni.usd.libs`,
+# which is the host-available carrier for the USD libraries (Requirement 1.5).
+"omni.usd.libs" = {}
+
+# NOTE: `omni.ext` (extension lifecycle) and `pxr` (USD Python bindings) are
+# both required at runtime but are provided implicitly by the Kit kernel and by
+# `omni.usd.libs` respectively, so they are not (and must not be) listed as
+# resolvable extension dependencies above. Declaring `pxr`/`omni.ext` as
+# extension dependencies would itself raise an unresolved-dependency error.
+
+# Python module exposed by this extension. The package on disk lives at
+# `lightspeed/trex/scatter/__init__.py` (Requirement 1.1).
+[[python.module]]
+name = "lightspeed.trex.scatter"
+
+[[test]]
+dependencies = [
+    "omni.kit.test",
+]
